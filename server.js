@@ -13,7 +13,7 @@ let workouts = [
     {
         "id": "1",
         "name": "Bench Press",
-        "image": "../images/bench.jpg",
+        "image": "bench.jpg",
         "compound": "True",
         "muscle": "chest",
         "sets": "3",
@@ -22,7 +22,7 @@ let workouts = [
     {
         "id": "2",
         "name": "Incline Bench Press",
-        "image": "../images/inclinebench.jpg",
+        "image": "inclinebench.jpg",
         "compound": "True",
         "muscle": "chest",
         "sets": "3",
@@ -31,7 +31,7 @@ let workouts = [
     {
         "id": "3",
         "name": "Chest Fly",
-        "image": "../images/chestfly.jpg",
+        "image": "chestfly.jpg",
         "compound": "True",
         "muscle": "chest",
         "sets": "3",
@@ -40,7 +40,7 @@ let workouts = [
     {
         "id": "4",
         "name": "Shoulder Press",
-        "image": "../images/overheadpress.jpg",
+        "image": "overheadpress.jpg",
         "compound": "True",
         "muscle": "chest",
         "sets": "3",
@@ -49,7 +49,7 @@ let workouts = [
     {
         "id": "5",
         "name": "Cable Row",
-        "image": "../images/cablerow.jpg",
+        "image": "cablerow.jpg",
         "compound": "True",
         "muscle": "back",
         "sets": "3",
@@ -58,7 +58,7 @@ let workouts = [
     {
         "id": "6",
         "name": "Pull-Up",
-        "image": "../images/pullup.jpg",
+        "image": "pullup.jpg",
         "compound": "True",
         "muscle": "back",
         "sets": "4",
@@ -67,7 +67,7 @@ let workouts = [
     {
         "id": "7",
         "name": "Reverse Fly",
-        "image": "../images/reversefly.jpg",
+        "image": "reversefly.jpg",
         "compound": "False",
         "muscle": "back",
         "sets": "4",
@@ -76,7 +76,7 @@ let workouts = [
     {
         "id": "8",
         "name": "Face Pull",
-        "image": "../images/facepull.jpg",
+        "image": "facepull.jpg",
         "compound": "True",
         "muscle": "back",
         "sets": "4",
@@ -85,7 +85,7 @@ let workouts = [
     {
         "id": "9",
         "name": "Squat",
-        "image": "../images/squat.jpg",
+        "image": "squat.jpg",
         "compound": "True",
         "muscle": "legs",
         "sets": "3",
@@ -94,7 +94,7 @@ let workouts = [
     {
         "id": "10",
         "name": "Deadlift",
-        "image": "../images/deadlift.jpg",
+        "image": "deadlift.jpg",
         "compound": "True",
         "muscle": "legs",
         "sets": "2",
@@ -103,7 +103,7 @@ let workouts = [
     {
         "id": "11",
         "name": "RDL",
-        "image": "../images/RDL.jpg",
+        "image": "RDL.jpg",
         "compound": "True",
         "muscle": "legs",
         "sets": "3",
@@ -112,7 +112,7 @@ let workouts = [
     {
         "id": "12",
         "name": "Leg Press",
-        "image": "../images/legpress.jpg",
+        "image": "legpress.jpg",
         "compound": "True",
         "muscle": "legs",
         "sets": "3",
