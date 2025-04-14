@@ -151,14 +151,14 @@ app.post("/api/workouts", upload.single("img"), (req,res)=>{
         return;
     }
 
-    const house = {
+    const workout = {
         _id: workouts.length,
         name:req.body.name,
         muscle:req.body.muscle,
     };
 
     if(req.file){
-        house.image = req.file.filename;
+        workout.image = req.file.filename;
     }
 
     workouts.push(workout);
