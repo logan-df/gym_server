@@ -1,5 +1,7 @@
 const express = require("express");
 const cors = require("cors");
+const multer = require("multer");
+const Joi = require("joi");
 const app = express();
 app.use(express.static("public"));
 app.use(express.json());
@@ -7,6 +9,21 @@ app.use(cors());
 
 app.get("/",(req, res)=>{
     res.sendFile(_dirname+"/index.html");
+});
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, "./public/images/");
+    },
+    filename: (req, file, cb) => {
+      cb(null, file.originalname);
+    },
+  });
+  
+  const upload = multer({ storage: storage });
+
+app.get("/",(req, res)=>{
+    res.sendFile(__dirname+"/index.html");
 });
 
 let workouts = [
@@ -123,6 +140,40 @@ let workouts = [
 app.get("/api/workouts", (req, res)=>{
     res.send(workouts);
 });
+
+app.post("/api/workouts", upload.single("img"), (req,res)=>{
+    const result = validateWorkout(req.body);
+
+
+    if(result.error){
+        console.log("I have an error");
+        res.status(400).send(result.error.deatils[0].message);
+        return;
+    }
+
+    const house = {
+        _id: workouts.length,
+        name:req.body.name,
+        muscle:req.body.muscle,
+    };
+
+    if(req.file){
+        house.image = req.file.filename;
+    }
+
+    workouts.push(workout);
+    res.status(200).send(workout);
+});
+
+const validateWorkout = (workout) => {
+    const schema = Joi.object({
+        _id:Joi.allow(""),
+        name:Joi.string().min(2).required(),
+        muscle:Joi.string().min(2).required(),
+    });
+
+    return schema.validate(workout);
+};
 
 app.listen(3001, ()=>{
     console.log("I'm listening");
