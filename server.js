@@ -28,7 +28,7 @@ app.get("/",(req, res)=>{
 
 let workouts = [
     {
-        "id": "1",
+        "_id": "1",
         "name": "Bench Press",
         "image": "bench.jpg",
         "compound": "True",
@@ -37,7 +37,7 @@ let workouts = [
         "reps": "6-8"
     },
     {
-        "id": "2",
+        "_id": "2",
         "name": "Incline Bench Press",
         "image": "inclinebench.jpg",
         "compound": "True",
@@ -46,7 +46,7 @@ let workouts = [
         "reps": "6-8"
     },
     {
-        "id": "3",
+        "_id": "3",
         "name": "Chest Fly",
         "image": "chestfly.jpg",
         "compound": "True",
@@ -55,7 +55,7 @@ let workouts = [
         "reps": "8-10"
     },
     {
-        "id": "4",
+        "_id": "4",
         "name": "Shoulder Press",
         "image": "overheadpress.jpg",
         "compound": "True",
@@ -64,7 +64,7 @@ let workouts = [
         "reps": "6-8"
     },
     {
-        "id": "5",
+        "_id": "5",
         "name": "Cable Row",
         "image": "cablerow.jpg",
         "compound": "True",
@@ -73,7 +73,7 @@ let workouts = [
         "reps": "8-10"
     },
     {
-        "id": "6",
+        "_id": "6",
         "name": "Pull-Up",
         "image": "pullup.jpg",
         "compound": "True",
@@ -82,7 +82,7 @@ let workouts = [
         "reps": "10-12"
     },
     {
-        "id": "7",
+        "_id": "7",
         "name": "Reverse Fly",
         "image": "reversefly.jpg",
         "compound": "False",
@@ -91,7 +91,7 @@ let workouts = [
         "reps": "10-12"
     },
     {
-        "id": "8",
+        "_id": "8",
         "name": "Face Pull",
         "image": "facepull.jpg",
         "compound": "True",
@@ -100,7 +100,7 @@ let workouts = [
         "reps": "8-10"
     },
     {
-        "id": "9",
+        "_id": "9",
         "name": "Squat",
         "image": "squat.jpg",
         "compound": "True",
@@ -109,7 +109,7 @@ let workouts = [
         "reps": "6-8"
     },
     {
-        "id": "10",
+        "_id": "10",
         "name": "Deadlift",
         "image": "deadlift.jpg",
         "compound": "True",
@@ -118,7 +118,7 @@ let workouts = [
         "reps": "4-6"
     },
     {
-        "id": "11",
+        "_id": "11",
         "name": "RDL",
         "image": "RDL.jpg",
         "compound": "True",
@@ -127,7 +127,7 @@ let workouts = [
         "reps": "8-10"
     },
     {
-        "id": "12",
+        "_id": "12",
         "name": "Leg Press",
         "image": "legpress.jpg",
         "compound": "True",
