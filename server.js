@@ -24,7 +24,7 @@ const storage = multer.diskStorage({
 
 let workouts = [
     {
-        "_id": "1",
+        "_id": 1,
         "name": "Bench Press",
         "image": "bench.jpg",
         "compound": "True",
@@ -33,7 +33,7 @@ let workouts = [
         "reps": "6-8"
     },
     {
-        "_id": "2",
+        "_id": 2,
         "name": "Incline Bench Press",
         "image": "inclinebench.jpg",
         "compound": "True",
@@ -42,7 +42,7 @@ let workouts = [
         "reps": "6-8"
     },
     {
-        "_id": "3",
+        "_id": 3,
         "name": "Chest Fly",
         "image": "chestfly.jpg",
         "compound": "True",
@@ -51,7 +51,7 @@ let workouts = [
         "reps": "8-10"
     },
     {
-        "_id": "4",
+        "_id": 4,
         "name": "Shoulder Press",
         "image": "overheadpress.jpg",
         "compound": "True",
@@ -60,7 +60,7 @@ let workouts = [
         "reps": "6-8"
     },
     {
-        "_id": "5",
+        "_id": 5,
         "name": "Cable Row",
         "image": "cablerow.jpg",
         "compound": "True",
@@ -69,7 +69,7 @@ let workouts = [
         "reps": "8-10"
     },
     {
-        "_id": "6",
+        "_id": 6,
         "name": "Pull-Up",
         "image": "pullup.jpg",
         "compound": "True",
@@ -78,7 +78,7 @@ let workouts = [
         "reps": "10-12"
     },
     {
-        "_id": "7",
+        "_id": 7,
         "name": "Reverse Fly",
         "image": "reversefly.jpg",
         "compound": "False",
@@ -87,7 +87,7 @@ let workouts = [
         "reps": "10-12"
     },
     {
-        "_id": "8",
+        "_id": 8,
         "name": "Face Pull",
         "image": "facepull.jpg",
         "compound": "True",
@@ -96,7 +96,7 @@ let workouts = [
         "reps": "8-10"
     },
     {
-        "_id": "9",
+        "_id": 9,
         "name": "Squat",
         "image": "squat.jpg",
         "compound": "True",
@@ -105,7 +105,7 @@ let workouts = [
         "reps": "6-8"
     },
     {
-        "_id": "10",
+        "_id": 10,
         "name": "Deadlift",
         "image": "deadlift.jpg",
         "compound": "True",
@@ -114,7 +114,7 @@ let workouts = [
         "reps": "4-6"
     },
     {
-        "_id": "11",
+        "_id": 11,
         "name": "RDL",
         "image": "RDL.jpg",
         "compound": "True",
@@ -123,7 +123,7 @@ let workouts = [
         "reps": "8-10"
     },
     {
-        "_id": "12",
+        "_id": 12,
         "name": "Leg Press",
         "image": "legpress.jpg",
         "compound": "True",
@@ -162,7 +162,7 @@ app.post("/api/workouts", upload.single("img"), (req,res)=>{
 });
 
 app.put("/api/workouts/:id", upload.single("img"),(req,res)=>{
-    const workout = workouts.find((workout)=>workout._id===req.params.id);
+    const workout = workouts.find((workout)=>workout._id===parseInt(req.params.id));
 
     if(!workout){
         res.status(404).send("The workout with the provided id was not found");
@@ -188,7 +188,7 @@ app.put("/api/workouts/:id", upload.single("img"),(req,res)=>{
 
 app.delete("/api/workouts/:id",(req,res)=>{
     console.log("I'm trying to delete" + req.params.id);
-    const workout = workouts.find((workout)=>workout._id===req.params.id);
+    const workout = workouts.find((workout)=>workout._id===parseInt(req.params.id));
 
     if(!workout){
         console.log("Oh no i wasn't found");
