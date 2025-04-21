@@ -22,10 +22,6 @@ const storage = multer.diskStorage({
   
   const upload = multer({ storage: storage });
 
-app.get("/",(req, res)=>{
-    res.sendFile(__dirname+"/index.html");
-});
-
 let workouts = [
     {
         "_id": "1",
@@ -166,7 +162,7 @@ app.post("/api/workouts", upload.single("img"), (req,res)=>{
 });
 
 app.put("/api/workouts/:id", upload.single("img"),(req,res)=>{
-    const workout = workouts.find((workout)=>workout._id===parseInt(req.params.id));
+    const workout = workouts.find((workout)=>workout._id===req.params.id);
 
     if(!workout){
         res.status(404).send("The workout with the provided id was not found");
@@ -192,7 +188,7 @@ app.put("/api/workouts/:id", upload.single("img"),(req,res)=>{
 
 app.delete("/api/workouts/:id",(req,res)=>{
     console.log("I'm trying to delete" + req.params.id);
-    const workout = workouts.find((workout)=>workout._id===parseInt(req.params.id));
+    const workout = workouts.find((workout)=>workout._id===req.params.id);
 
     if(!workout){
         console.log("Oh no i wasn't found");
@@ -201,7 +197,7 @@ app.delete("/api/workouts/:id",(req,res)=>{
     }
     console.log("YAY You found me");
     console.log("The workout you are deleting is " + workout.name);
-    const index = workout.indexOf(workout);
+    const index = workouts.indexOf(workout);
     workouts.splice(index,1);
     res.status(200).send(workout);
 });
