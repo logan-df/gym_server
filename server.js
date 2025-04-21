@@ -165,6 +165,47 @@ app.post("/api/workouts", upload.single("img"), (req,res)=>{
     res.status(200).send(workout);
 });
 
+app.put("/api/workouts/:id", upload.single("img"),(req,res)=>{
+    const workout = workouts.find((workout)=>workout._id===parseInt(req.params.id));
+
+    if(!workout){
+        res.status(404).send("The workout with the provided id was not found");
+        return;
+    }
+
+    const result = validateWorkout(req.body);
+
+    if(result.error){
+        res.status(400).send(result.error.details[0].message);
+        return;
+    }
+
+    workout.name = req.body.name;
+    workout.muscle = req.body.muscle;
+
+    if(req.file){
+        workout.image = req.file.filename;
+    }
+
+    res.status(200).send(workout);
+});
+
+app.delete("/api/workouts/:id",(req,res)=>{
+    console.log("I'm trying to delete" + req.params.id);
+    const workout = workouts.find((workout)=>workout._id===parseInt(req.params.id));
+
+    if(!workout){
+        console.log("Oh no i wasn't found");
+        res.status(404).send("The workout with the provided id was not found");
+        return;
+    }
+    console.log("YAY You found me");
+    console.log("The workout you are deleting is " + workout.name);
+    const index = workout.indexOf(workout);
+    workouts.splice(index,1);
+    res.status(200).send(workout);
+});
+
 const validateWorkout = (workout) => {
     const schema = Joi.object({
         _id:Joi.allow(""),
