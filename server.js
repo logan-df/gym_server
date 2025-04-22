@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const multer = require("multer");
 const Joi = require("joi");
+const mongoose = require("mongoose");
 const app = express();
 app.use(express.static("public"));
 app.use(express.json());
@@ -13,131 +14,38 @@ app.get("/",(req, res)=>{
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, "./public/images/");
+        cb(null, "./public/images/");
     },
     filename: (req, file, cb) => {
-      cb(null, file.originalname);
+        cb(null, file.originalname);
     },
-  });
-  
-  const upload = multer({ storage: storage });
+});
 
-let workouts = [
-    {
-        "_id": 1,
-        "name": "Bench Press",
-        "image": "bench.jpg",
-        "compound": "True",
-        "muscle": "chest",
-        "sets": "3",
-        "reps": "6-8"
-    },
-    {
-        "_id": 2,
-        "name": "Incline Bench Press",
-        "image": "inclinebench.jpg",
-        "compound": "True",
-        "muscle": "chest",
-        "sets": "3",
-        "reps": "6-8"
-    },
-    {
-        "_id": 3,
-        "name": "Chest Fly",
-        "image": "chestfly.jpg",
-        "compound": "True",
-        "muscle": "chest",
-        "sets": "3",
-        "reps": "8-10"
-    },
-    {
-        "_id": 4,
-        "name": "Shoulder Press",
-        "image": "overheadpress.jpg",
-        "compound": "True",
-        "muscle": "chest",
-        "sets": "3",
-        "reps": "6-8"
-    },
-    {
-        "_id": 5,
-        "name": "Cable Row",
-        "image": "cablerow.jpg",
-        "compound": "True",
-        "muscle": "back",
-        "sets": "3",
-        "reps": "8-10"
-    },
-    {
-        "_id": 6,
-        "name": "Pull-Up",
-        "image": "pullup.jpg",
-        "compound": "True",
-        "muscle": "back",
-        "sets": "4",
-        "reps": "10-12"
-    },
-    {
-        "_id": 7,
-        "name": "Reverse Fly",
-        "image": "reversefly.jpg",
-        "compound": "False",
-        "muscle": "back",
-        "sets": "4",
-        "reps": "10-12"
-    },
-    {
-        "_id": 8,
-        "name": "Face Pull",
-        "image": "facepull.jpg",
-        "compound": "True",
-        "muscle": "back",
-        "sets": "4",
-        "reps": "8-10"
-    },
-    {
-        "_id": 9,
-        "name": "Squat",
-        "image": "squat.jpg",
-        "compound": "True",
-        "muscle": "legs",
-        "sets": "3",
-        "reps": "6-8"
-    },
-    {
-        "_id": 10,
-        "name": "Deadlift",
-        "image": "deadlift.jpg",
-        "compound": "True",
-        "muscle": "legs",
-        "sets": "2",
-        "reps": "4-6"
-    },
-    {
-        "_id": 11,
-        "name": "RDL",
-        "image": "RDL.jpg",
-        "compound": "True",
-        "muscle": "legs",
-        "sets": "3",
-        "reps": "8-10"
-    },
-    {
-        "_id": 12,
-        "name": "Leg Press",
-        "image": "legpress.jpg",
-        "compound": "True",
-        "muscle": "legs",
-        "sets": "3",
-        "reps": "6-8"
-    }
-];
+const upload = multer({ storage: storage });
 
-app.get("/api/workouts", (req, res)=>{
+    mongoose
+    .connect("mongodb+srv://ldford711:6sdrsTeoX3cn0wlP@cluster-logan-df.eqj2ybp.mongodb.net/")
+    .then(() => {
+        console.log("connected to mongodb");
+    })
+    .catch((error) => {
+    console.log("couldn't connect to mongodb", error);
+    });
+
+const workoutSchema = new mongoose.Schema({
+    name:String,
+    muscle:String,
+    image:String
+});
+
+const Workout = mongoose.model("Workout", workoutSchema);
+
+app.get("/api/workouts", async(req, res)=>{
+    const workouts = await Workout.find();
     res.send(workouts);
 });
 
-app.post("/api/workouts", upload.single("img"), (req,res)=>{
+app.post("/api/workouts", upload.single("img"), async(req,res)=>{
     const result = validateWorkout(req.body);
 
 
@@ -147,27 +55,20 @@ app.post("/api/workouts", upload.single("img"), (req,res)=>{
         return;
     }
 
-    const workout = {
-        _id: workouts.length,
+    const workout = new Workout ({
         name:req.body.name,
-        muscle:req.body.muscle,
-    };
+        muscle:req.body.muscle
+    });
 
     if(req.file){
         workout.image = req.file.filename;
     }
 
-    workouts.push(workout);
-    res.status(200).send(workout);
+    const newWorkout = await workout.save();
+    res.status(200).send(newWorkout);
 });
 
-app.put("/api/workouts/:id", upload.single("img"),(req,res)=>{
-    const workout = workouts.find((workout)=>workout._id===parseInt(req.params.id));
-
-    if(!workout){
-        res.status(404).send("The workout with the provided id was not found");
-        return;
-    }
+app.put("/api/workouts/:id", upload.single("img"), async(req,res)=>{
 
     const result = validateWorkout(req.body);
 
@@ -176,29 +77,23 @@ app.put("/api/workouts/:id", upload.single("img"),(req,res)=>{
         return;
     }
 
-    workout.name = req.body.name;
-    workout.muscle = req.body.muscle;
+    const fieldsToUpdate = {
+        name:req.body.name,
+        muscle:req.body.muscle
+    }
 
     if(req.file){
-        workout.image = req.file.filename;
+        fieldsToUpdate.image = req.file.filename;
     }
+
+    const wentThrough = await Workout.updateOne({_id:req.parans.id}, fieldsToUpdate)
+    const workout = await Workout.findOne({_id:req.params.id});
 
     res.status(200).send(workout);
 });
 
-app.delete("/api/workouts/:id",(req,res)=>{
-    console.log("I'm trying to delete" + req.params.id);
-    const workout = workouts.find((workout)=>workout._id===parseInt(req.params.id));
-
-    if(!workout){
-        console.log("Oh no i wasn't found");
-        res.status(404).send("The workout with the provided id was not found");
-        return;
-    }
-    console.log("YAY You found me");
-    console.log("The workout you are deleting is " + workout.name);
-    const index = workouts.indexOf(workout);
-    workouts.splice(index,1);
+app.delete("/api/workouts/:id", async(req,res)=>{
+    const workout = await Workout.findByIdAndDelete(req.params.id);
     res.status(200).send(workout);
 });
 
